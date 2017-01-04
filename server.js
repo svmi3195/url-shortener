@@ -1,17 +1,20 @@
-var http = require('http');
 var express = require('express');
+var app = express();
 
-http.createServer(function(req, res){
-    res.writeHead(200, {'Content-Type': 'application/json'});
+var port = process.env.PORT || 3000;
 
-    var orig = req.url.slice(1);
-    var short = "";   
+app.get('/*', function(req, res){
+
+    var orig = req.originalUrl.slice(1);
+    var short = '';   
 
     var urls = {
         original: orig,
         shortened: short
     };
 
-    res.end(JSON.stringify(urls));
+    res.send(JSON.stringify(urls));
 
-}).listen(1337, '127.0.0.1');
+});
+
+app.listen(port);
