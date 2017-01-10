@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 
 var port = process.env.PORT || 3000;
 
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://short:short@ds159328.mlab.com:59328/url-shortener-data');
 
 var Schema = mongoose.Schema;
