@@ -16,21 +16,28 @@ var linkSchema = new Schema({
 
 var Link = mongoose.model('Link', linkSchema);
 
-var google = Link({
-    original  : 'https://www.google.ru/',
-    shortened : '12345'
-});
-
-google.save(function(error){
-    if(error) throw error;
-
-    console,log('input saved');
-})
-
-app.get('/*', function(req, res){
+app.get('/https://*', function(req, res){
 
     var orig = req.originalUrl.slice(1);
-    var short = '';   
+    var short = '';
+
+    var inLink = Link({
+        original  : orig,
+        shortened : orig + 'ZZZ'
+    });
+
+   Link.find({ original: orig }, function(err, haveLink){
+        if(err) return console.error(err);
+        if(haveLink[0]) console.log(haveLink[0]['shortened']);
+        else{
+            inLink.save(function(err, data){
+                if(err) return console.error(err);
+                console.log('input saved');
+                return orig + 'ZZZ';
+        }); 
+        }
+    });
+
 
     var urls = {
         original: orig,
